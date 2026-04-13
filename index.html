@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Modern Public School</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* ===== RESET & BASE ===== */
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --blue:#1a56db;--blue-dark:#1040b0;--blue-light:#e8f0fe;
+  --yellow:#fbbf24;--yellow-light:#fffbeb;
+  --white:#fff;--gray:#f8fafc;--text:#1e293b;--muted:#64748b;
+  --radius:14px;--shadow:0 4px 24px rgba(26,86,219,.10);
+  --transition:.3s ease;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Poppins',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+img{max-width:100%;display:block;}
+section{padding:80px 0;}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+.section-tag{display:inline-block;background:var(--blue-light);color:var(--blue);font-size:.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 16px;border-radius:50px;margin-bottom:12px;}
+.section-title{font-size:2.1rem;font-weight:700;line-height:1.25;margin-bottom:16px;}
+.section-sub{color:var(--muted);font-size:1rem;max-width:560px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border-radius:50px;font-weight:600;font-size:.95rem;cursor:pointer;border:none;transition:var(--transition);}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,86,219,.3);}
+.btn-outline{background:transparent;color:var(--blue);border:2px solid var(--blue);}
+.btn-outline:hover{background:var(--blue);color:#fff;}
+.btn-yellow{background:var(--yellow);color:#1e293b;}
+.btn-yellow:hover{background:#f59e0b;transform:translateY(-2px);}
+
+/* ===== NAVBAR ===== */
+#navbar{position:fixed;top:0;left:0;width:100%;z-index:999;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);box-shadow:0 1px 12px rgba(0,0,0,.07);transition:var(--transition);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px;padding:0 24px;max-width:1280px;margin:0 auto;}
+.nav-logo{display:flex;align-items:center;gap:12px;}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--blue),#60a5fa);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.logo-icon i{color:#fff;font-size:1.2rem;}
+.logo-text{font-size:1.05rem;font-weight:700;line-height:1.2;}
+.logo-text span{color:var(--blue);}
+.logo-sub{font-size:.65rem;color:var(--muted);font-weight:400;letter-spacing:.5px;}
+.nav-links{display:flex;gap:8px;align-items:center;}
+.nav-links a{padding:8px 16px;border-radius:8px;font-size:.9rem;font-weight:500;color:var(--text);transition:var(--transition);}
+.nav-links a:hover,.nav-links a.active{color:var(--blue);background:var(--blue-light);}
+.nav-cta{background:var(--blue);color:#fff!important;border-radius:50px!important;padding:9px 22px!important;}
+.nav-cta:hover{background:var(--blue-dark)!important;color:#fff!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
+.hamburger span{display:block;width:24px;height:2.5px;background:var(--text);border-radius:2px;transition:var(--transition);}
+.mobile-menu{display:none;position:fixed;top:70px;left:0;width:100%;background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.1);padding:20px 24px;z-index:998;flex-direction:column;gap:4px;}
+.mobile-menu a{padding:12px 16px;border-radius:10px;font-weight:500;display:block;transition:var(--transition);}
+.mobile-menu a:hover{background:var(--blue-light);color:var(--blue);}
+.mobile-menu.open{display:flex;}
+
+/* ===== HERO ===== */
+#home{padding:0;margin-top:70px;min-height:calc(100vh - 70px);position:relative;overflow:hidden;}
+.hero-slider{position:relative;height:calc(100vh - 70px);min-height:560px;}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;display:flex;align-items:center;}
+.slide.active{opacity:1;}
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(120deg,rgba(15,40,100,.80) 50%,rgba(15,40,100,.3));}
+.slide-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 24px;color:#fff;}
+.slide-tag{display:inline-block;background:rgba(251,191,36,.2);border:1px solid var(--yellow);color:var(--yellow);font-size:.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 18px;border-radius:50px;margin-bottom:20px;}
+.slide-title{font-size:clamp(2rem,5vw,3.6rem);font-weight:800;line-height:1.15;margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,.3);}
+.slide-title span{color:var(--yellow);}
+.slide-desc{font-size:1.05rem;opacity:.9;max-width:520px;margin-bottom:32px;line-height:1.7;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.slider-controls{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10;}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:var(--transition);}
+.dot.active{background:#fff;width:28px;border-radius:50px;}
+.slider-arrows{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 20px;z-index:10;pointer-events:none;}
+.arrow-btn{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,.3);color:#fff;font-size:1rem;cursor:pointer;pointer-events:all;transition:var(--transition);display:flex;align-items:center;justify-content:center;}
+.arrow-btn:hover{background:rgba(255,255,255,.3);}
+
+/* ===== STATS BAR ===== */
+.stats-bar{background:var(--blue);padding:28px 0;}
+.stats-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1200px;margin:0 auto;padding:0 24px;}
+.stat-item{text-align:center;color:#fff;padding:16px;position:relative;}
+.stat-item:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(255,255,255,.2);}
+.stat-num{font-size:2rem;font-weight:800;color:var(--yellow);}
+.stat-label{font-size:.8rem;opacity:.85;margin-top:4px;font-weight:500;}
+
+/* ===== HIGHLIGHTS ===== */
+#highlights{background:var(--gray);}
+.highlights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;}
+.highlight-card{background:#fff;border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow);transition:var(--transition);border:1.5px solid transparent;position:relative;overflow:hidden;}
+.highlight-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--blue);border-radius:4px 0 0 4px;transform:scaleY(0);transition:var(--transition);}
+.highlight-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(26,86,219,.15);border-color:var(--blue-light);}
+.highlight-card:hover::before{transform:scaleY(1);}
+.card-icon{width:60px;height:60px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;}
+.icon-blue{background:var(--blue-light);color:var(--blue);}
+.icon-yellow{background:#fef9c3;color:#ca8a04;}
+.icon-green{background:#dcfce7;color:#16a34a;}
+.icon-red{background:#fee2e2;color:#dc2626;}
+.icon-purple{background:#f3e8ff;color:#7c3aed;}
+.icon-teal{background:#ccfbf1;color:#0d9488;}
+.highlight-card h3{font-size:1.1rem;font-weight:700;margin-bottom:10px;}
+.highlight-card p{color:var(--muted);font-size:.9rem;line-height:1.7;}
+
+/* ===== ABOUT ===== */
+#about{background:#fff;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:24px;}
+.about-img-wrap{position:relative;}
+.about-img{width:100%;height:420px;border-radius:20px;object-fit:cover;background:linear-gradient(135deg,#1a56db 0%,#60a5fa 100%);display:flex;align-items:center;justify-content:center;font-size:5rem;color:#fff;}
+.about-badge{position:absolute;bottom:-20px;right:-20px;background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,.12);text-align:center;}
+.about-badge .num{font-size:2rem;font-weight:800;color:var(--blue);}
+.about-badge .lbl{font-size:.75rem;color:var(--muted);font-weight:500;}
+.mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}
+.mv-card{background:var(--gray);border-radius:12px;padding:20px;}
+.mv-card h4{font-size:.95rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.mv-card h4 i{color:var(--blue);}
+.mv-card p{font-size:.85rem;color:var(--muted);line-height:1.6;}
+
+/* PRINCIPAL */
+.principal-section{margin-top:64px;background:linear-gradient(135deg,var(--blue-light) 0%,#fff 100%);border-radius:20px;padding:40px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;}
+.principal-img{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#60a5fa);display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#fff;flex-shrink:0;border:4px solid #fff;box-shadow:0 4px 20px rgba(26,86,219,.2);}
+.principal-quote{font-size:1rem;color:var(--muted);line-height:1.8;font-style:italic;margin-bottom:12px;}
+.principal-name{font-weight:700;color:var(--text);}
+.principal-title{font-size:.8rem;color:var(--muted);}
+
+/* ===== ACADEMICS ===== */
+#academics{background:var(--gray);}
+.academics-content{margin-top:48px;}
+.classes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-bottom:48px;}
+.class-chip{background:#fff;border-radius:10px;padding:16px 12px;text-align:center;box-shadow:var(--shadow);transition:var(--transition);cursor:default;border:1.5px solid transparent;}
+.class-chip:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-3px);}
+.class-chip .grade{font-size:1.1rem;font-weight:700;}
+.class-chip .name{font-size:.75rem;color:var(--muted);margin-top:4px;}
+.acad-two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:16px;}
+.acad-box{background:#fff;border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);}
+.acad-box h3{font-size:1.05rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.acad-box h3 i{color:var(--blue);}
+.subject-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.stag{background:var(--blue-light);color:var(--blue);padding:6px 14px;border-radius:50px;font-size:.8rem;font-weight:500;}
+.facility-list{display:flex;flex-direction:column;gap:12px;}
+.fac-item{display:flex;align-items:center;gap:12px;font-size:.9rem;}
+.fac-item i{color:var(--blue);width:20px;}
+
+/* ===== ADMISSIONS ===== */
+#admissions{background:#fff;}
+.adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;align-items:start;}
+.steps-list{display:flex;flex-direction:column;gap:0;}
+.step{display:flex;gap:16px;padding:20px 0;position:relative;}
+.step:not(:last-child)::after{content:'';position:absolute;left:19px;top:54px;width:2px;height:calc(100% - 20px);background:var(--blue-light);}
+.step-num{width:40px;height:40px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.95rem;}
+.step-body h4{font-weight:700;margin-bottom:6px;}
+.step-body p{font-size:.85rem;color:var(--muted);line-height:1.6;}
+.adm-form-box{background:var(--gray);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);}
+.adm-form-box h3{font-size:1.2rem;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px;}
+.adm-form-box h3 i{color:var(--blue);}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:.85rem;font-weight:600;margin-bottom:8px;color:var(--text);}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.9rem;color:var(--text);background:#fff;transition:var(--transition);outline:none;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.form-group input.error,.form-group select.error{border-color:#ef4444;}
+.error-msg{color:#ef4444;font-size:.75rem;margin-top:5px;display:none;}
+.success-toast{display:none;background:#dcfce7;color:#166534;padding:14px 20px;border-radius:10px;margin-top:16px;font-size:.9rem;font-weight:500;text-align:center;}
+
+/* ===== GALLERY ===== */
+#gallery{background:var(--gray);}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto;gap:16px;margin-top:48px;}
+.gal-item{border-radius:12px;overflow:hidden;position:relative;cursor:pointer;}
+.gal-item.wide{grid-column:span 2;}
+.gal-item.tall{grid-row:span 2;}
+.gal-placeholder{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;transition:var(--transition);}
+.gal-item.tall .gal-placeholder{height:416px;}
+.gal-overlay{position:absolute;inset:0;background:rgba(26,86,219,.7);opacity:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;font-weight:600;transition:var(--transition);}
+.gal-item:hover .gal-overlay{opacity:1;}
+.gal-item:hover .gal-placeholder{transform:scale(1.05);}
+.g1{background:linear-gradient(135deg,#1a56db,#60a5fa);}
+.g2{background:linear-gradient(135deg,#16a34a,#4ade80);}
+.g3{background:linear-gradient(135deg,#ca8a04,#fbbf24);}
+.g4{background:linear-gradient(135deg,#7c3aed,#a78bfa);}
+.g5{background:linear-gradient(135deg,#0d9488,#2dd4bf);}
+.g6{background:linear-gradient(135deg,#dc2626,#f87171);}
+.g7{background:linear-gradient(135deg,#1a56db,#3b82f6);}
+.g8{background:linear-gradient(135deg,#ca8a04,#facc15);}
+
+/* ===== CONTACT ===== */
+#contact{background:#fff;}
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;margin-top:48px;align-items:start;}
+.contact-info{display:flex;flex-direction:column;gap:20px;}
+.info-card{background:var(--gray);border-radius:12px;padding:24px;display:flex;gap:16px;align-items:flex-start;}
+.info-icon{width:44px;height:44px;border-radius:10px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:1.1rem;flex-shrink:0;}
+.info-card h4{font-weight:700;margin-bottom:4px;font-size:.95rem;}
+.info-card p{font-size:.85rem;color:var(--muted);line-height:1.6;}
+.map-box{border-radius:14px;overflow:hidden;height:180px;background:linear-gradient(135deg,#e8f0fe,#bfdbfe);display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--blue);}
+.contact-form-box{background:var(--gray);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);}
+.contact-form-box h3{font-size:1.1rem;font-weight:700;margin-bottom:24px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+/* ===== FOOTER ===== */
+footer{background:#0f172a;color:#94a3b8;padding:60px 0 0;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding:0 24px;max-width:1200px;margin:0 auto;}
+.footer-brand .logo-text{color:#fff;}
+.footer-brand .logo-sub{color:#94a3b8;}
+.footer-desc{font-size:.85rem;line-height:1.7;margin:16px 0;}
+.social-icons{display:flex;gap:10px;}
+.soc-icon{width:36px;height:36px;border-radius:8px;background:#1e293b;display:flex;align-items:center;justify-content:center;color:#94a3b8;transition:var(--transition);font-size:.9rem;}
+.soc-icon:hover{background:var(--blue);color:#fff;}
+.footer-col h4{color:#fff;font-weight:700;margin-bottom:16px;font-size:.95rem;}
+.footer-col ul{display:flex;flex-direction:column;gap:10px;}
+.footer-col ul li a{font-size:.85rem;transition:var(--transition);}
+.footer-col ul li a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid #1e293b;margin-top:48px;padding:20px 24px;max-width:1200px;margin-left:auto;margin-right:auto;display:flex;justify-content:space-between;align-items:center;font-size:.8rem;}
+
+/* ===== SCROLL TO TOP ===== */
+#scrollTop{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(26,86,219,.3);opacity:0;pointer-events:none;transition:var(--transition);z-index:997;}
+#scrollTop.show{opacity:1;pointer-events:all;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .highlights-grid{grid-template-columns:repeat(2,1fr);}
+  .about-grid{grid-template-columns:1fr;gap:40px;}
+  .about-img{height:300px;}
+  .about-badge{right:0;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+  section{padding:60px 0;}
+  .section-title{font-size:1.7rem;}
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .stats-inner{grid-template-columns:repeat(2,1fr);}
+  .stat-item:nth-child(2)::after{display:none;}
+  .highlights-grid{grid-template-columns:1fr;}
+  .mv-grid{grid-template-columns:1fr;}
+  .principal-section{grid-template-columns:1fr;text-align:center;}
+  .principal-img{margin:0 auto;}
+  .acad-two-col{grid-template-columns:1fr;}
+  .adm-grid{grid-template-columns:1fr;}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  .gal-item.wide{grid-column:span 1;}
+  .gal-item.tall{grid-row:span 1;}
+  .gal-item.tall .gal-placeholder{height:200px;}
+  .contact-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center;}
+}
+@media(max-width:480px){
+  .stats-inner{grid-template-columns:1fr 1fr;}
+  .classes-grid{grid-template-columns:repeat(3,1fr);}
+  .hero-btns{flex-direction:column;}
+  .slide-title{font-size:1.8rem;}
+}
+
+/* ===== ANIMATIONS ===== */
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">
+      <div class="logo-icon"><i class="fas fa-sun"></i></div>
+      <div>
+        <div class="logo-text"><span>Sunrise</span> Public School</div>
+        <div class="logo-sub">Est. 1995 · Excellence in Education</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#academics">Academics</a>
+      <a href="#admissions">Admissions</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+      <a href="#admissions" class="nav-cta">Apply Now</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" onclick="closeMenu()">Home</a>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#academics" onclick="closeMenu()">Academics</a>
+    <a href="#admissions" onclick="closeMenu()">Admissions</a>
+    <a href="#gallery" onclick="closeMenu()">Gallery</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+    <a href="#admissions" onclick="closeMenu()" style="color:var(--blue);font-weight:700;">Apply Now →</a>
+  </div>
+</nav>
+
+<!-- ===== HERO SLIDER ===== -->
+<section id="home">
+  <div class="hero-slider" id="heroSlider">
+    <!-- Slide 1 -->
+    <div class="slide active">
+      <div class="slide-bg" style="background:linear-gradient(135deg,#0f2460 0%,#1a56db 60%,#60a5fa 100%);"></div>
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-tag">Welcome to Modern Public School</div>
+        <h1 class="slide-title">Shaping <span>Future</span><br>Leaders of Tomorrow</h1>
+        <p class="slide-desc">A premier institution dedicated to holistic education, academic excellence, and character development since 1995.</p>
+        <div class="hero-btns">
+          <a href="#admissions" class="btn btn-yellow"><i class="fas fa-graduation-cap"></i> Apply Now</a>
+          <a href="#about" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.5);">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 2 -->
+    <div class="slide">
+      <div class="slide-bg" style="background:linear-gradient(135deg,#064e3b 0%,#059669 60%,#34d399 100%);"></div>
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-tag">World-Class Facilities</div>
+        <h1 class="slide-title">Where <span>Knowledge</span><br>Meets Innovation</h1>
+        <p class="slide-desc">State-of-the-art smart classrooms, science labs, and sports facilities designed to inspire every student.</p>
+        <div class="hero-btns">
+          <a href="#academics" class="btn btn-yellow"><i class="fas fa-flask"></i> Explore Academics</a>
+          <a href="#gallery" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.5);">View Gallery</a>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 3 -->
+    <div class="slide">
+      <div class="slide-bg" style="background:linear-gradient(135deg,#4c1d95 0%,#7c3aed 60%,#a78bfa 100%);"></div>
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-tag">Admissions Open 2025–26</div>
+        <h1 class="slide-title">Begin Your <span>Journey</span><br>to Excellence</h1>
+        <p class="slide-desc">Nursery to Class XII — Nurturing young minds with the perfect blend of discipline, creativity and values.</p>
+        <div class="hero-btns">
+          <a href="#admissions" class="btn btn-yellow"><i class="fas fa-file-alt"></i> Enroll Today</a>
+          <a href="#contact" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.5);">Contact Us</a>
+        </div>
+      </div>
+    </div>
+    <!-- Dots -->
+    <div class="slider-controls">
+      <div class="dot active" onclick="goToSlide(0)"></div>
+      <div class="dot" onclick="goToSlide(1)"></div>
+      <div class="dot" onclick="goToSlide(2)"></div>
+    </div>
+    <!-- Arrows -->
+    <div class="slider-arrows">
+      <button class="arrow-btn" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+      <button class="arrow-btn" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item fade-in"><div class="stat-num" data-target="2500">0</div><div class="stat-label">Students Enrolled</div></div>
+    <div class="stat-item fade-in"><div class="stat-num" data-target="120">0</div><div class="stat-label">Expert Faculty</div></div>
+    <div class="stat-item fade-in"><div class="stat-num" data-target="98">0</div><div class="stat-label">% Pass Rate</div></div>
+    <div class="stat-item fade-in"><div class="stat-num" data-target="29">0</div><div class="stat-label">Years of Excellence</div></div>
+  </div>
+</div>
+
+<!-- ===== HIGHLIGHTS ===== -->
+<section id="highlights">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <span class="section-tag">Why Choose Us</span>
+      <h2 class="section-title">A School That Stands Apart</h2>
+      <p class="section-sub" style="margin:0 auto;">We provide an environment where every child is motivated to become the best version of themselves.</p>
+    </div>
+    <div class="highlights-grid">
+      <div class="highlight-card fade-in">
+        <div class="card-icon icon-blue"><i class="fas fa-chalkboard-teacher"></i></div>
+        <h3>Experienced Teachers</h3>
+        <p>Our faculty comprises 120+ qualified educators with an average of 12 years of teaching experience, dedicated to student success.</p>
+      </div>
+      <div class="highlight-card fade-in">
+        <div class="card-icon icon-yellow"><i class="fas fa-desktop"></i></div>
+        <h3>Smart Classrooms</h3>
+        <p>All classrooms are equipped with interactive whiteboards, high-speed internet, and AI-assisted learning tools for modern education.</p>
+      </div>
+      <div class="highlight-card fade-in">
+        <div class="card-icon icon-green"><i class="fas fa-running"></i></div>
+        <h3>Sports Facilities</h3>
+        <p>Olympic-standard playground, indoor gymnasium, swimming pool, and coaching for cricket, football, basketball, and athletics.</p>
+      </div>
+      <div class="highlight-card fade-in">
+        <div class="card-icon icon-red"><i class="fas fa-shield-alt"></i></div>
+        <h3>Safe Environment</h3>
+        <p>24/7 CCTV surveillance, trained security personnel, and a child-safe campus ensuring the wellbeing of every student.</p>
+      </div>
+      <div class="highlight-card fade-in">
+        <div class="card-icon icon-purple"><i class="fas fa-palette"></i></div>
+        <h3>Arts & Culture</h3>
+        <p>Dedicated spaces for music, dance, drama, and fine arts. Regular inter-school competitions and cultural festivals.</p>
+      </div>
+      <div class="highlight-card fade-in">
+        <div class="card-icon icon-teal"><i class="fas fa-bus"></i></div>
+        <h3>Transport Facility</h3>
+        <p>GPS-enabled school buses covering 30+ routes across the city with trained drivers and lady attendants on board.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap fade-in">
+        <div class="about-img"><i class="fas fa-school" style="font-size:4rem;opacity:.6;"></i><span style="position:absolute;font-size:7rem;opacity:.08;font-weight:900;top:10px;right:10px;">MPS</span></div>
+        <div class="about-badge"><div class="num">29+</div><div class="lbl">Years of<br>Excellence</div></div>
+      </div>
+      <div class="fade-in">
+        <span class="section-tag">About Us</span>
+        <h2 class="section-title">Building Character,<br>Not Just Careers</h2>
+        <p style="color:var(--muted);line-height:1.8;margin-bottom:20px;">Founded in 1995, Modern Public School has been a beacon of quality education in the region. We believe in nurturing not just academic brilliance but also social responsibility, creativity, and moral values in every student.</p>
+        <p style="color:var(--muted);line-height:1.8;">Affiliated with CBSE (Central Board of Secondary Education), we offer a comprehensive curriculum from Nursery to Class XII, supported by world-class infrastructure and a compassionate team of educators.</p>
+        <div class="mv-grid">
+          <div class="mv-card">
+            <h4><i class="fas fa-bullseye"></i> Our Mission</h4>
+            <p>To provide quality education that empowers students to become critical thinkers, responsible citizens, and lifelong learners.</p>
+          </div>
+          <div class="mv-card">
+            <h4><i class="fas fa-eye"></i> Our Vision</h4>
+            <p>To be a globally recognized institution fostering excellence, innovation, and compassion in every student we serve.</p>
+          </div>
+        </div>
+        <a href="#admissions" class="btn btn-primary"><i class="fas fa-graduation-cap"></i> Apply for Admission</a>
+      </div>
+    </div>
+    <!-- Principal Message -->
+    <div class="principal-section fade-in">
+      <div class="principal-img"><i class="fas fa-user-tie"></i></div>
+      <div>
+        <span class="section-tag">Message from the Principal</span>
+        <p class="principal-quote">"At Modern Public School, we don't just teach subjects — we shape futures. Every child who walks through our doors is a unique individual with immense potential. Our mission is to discover that potential and help it shine. We invite you to be part of our journey towards a brighter tomorrow."</p>
+        <div class="principal-name">Dr. Rajeev Kumar Sharma</div>
+        <div class="principal-title">Principal, Modern Public School · M.Ed., Ph.D. (Education)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACADEMICS ===== -->
+<section id="academics">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-tag">Academics</span>
+      <h2 class="section-title">Comprehensive Learning<br>from Nursery to XII</h2>
+      <p class="section-sub">CBSE affiliated curriculum with a focus on conceptual clarity, practical learning, and competitive excellence.</p>
+    </div>
+    <div class="academics-content">
+      <div class="classes-grid fade-in">
+        <div class="class-chip"><div class="grade">🌱</div><div class="name">Nursery</div></div>
+        <div class="class-chip"><div class="grade">🌸</div><div class="name">LKG</div></div>
+        <div class="class-chip"><div class="grade">🌼</div><div class="name">UKG</div></div>
+        <div class="class-chip"><div class="grade">I</div><div class="name">Class 1</div></div>
+        <div class="class-chip"><div class="grade">II</div><div class="name">Class 2</div></div>
+        <div class="class-chip"><div class="grade">III</div><div class="name">Class 3</div></div>
+        <div class="class-chip"><div class="grade">IV</div><div class="name">Class 4</div></div>
+        <div class="class-chip"><div class="grade">V</div><div class="name">Class 5</div></div>
+        <div class="class-chip"><div class="grade">VI</div><div class="name">Class 6</div></div>
+        <div class="class-chip"><div class="grade">VII</div><div class="name">Class 7</div></div>
+        <div class="class-chip"><div class="grade">VIII</div><div class="name">Class 8</div></div>
+        <div class="class-chip"><div class="grade">IX</div><div class="name">Class 9</div></div>
+        <div class="class-chip"><div class="grade">X</div><div class="name">Class 10</div></div>
+        <div class="class-chip"><div class="grade">XI</div><div class="name">Class 11</div></div>
+        <div class="class-chip"><div class="grade">XII</div><div class="name">Class 12</div></div>
+      </div>
+      <div class="acad-two-col fade-in">
+        <div class="acad-box">
+          <h3><i class="fas fa-book-open"></i> Subjects Offered</h3>
+          <div class="subject-tags">
+            <span class="stag">Mathematics</span><span class="stag">Science</span><span class="stag">English</span>
+            <span class="stag">Hindi</span><span class="stag">Social Studies</span><span class="stag">Sanskrit</span>
+            <span class="stag">Computer Science</span><span class="stag">Physics</span><span class="stag">Chemistry</span>
+            <span class="stag">Biology</span><span class="stag">Commerce</span><span class="stag">Economics</span>
+            <span class="stag">History</span><span class="stag">Geography</span><span class="stag">Physical Ed.</span>
+            <span class="stag">Fine Arts</span><span class="stag">Music</span>
+          </div>
+        </div>
+        <div class="acad-box">
+          <h3><i class="fas fa-building"></i> Facilities & Infrastructure</h3>
+          <div class="facility-list">
+            <div class="fac-item"><i class="fas fa-flask"></i> Modern Science Labs (Physics, Chemistry, Biology)</div>
+            <div class="fac-item"><i class="fas fa-laptop"></i> Computer Lab with 80+ workstations</div>
+            <div class="fac-item"><i class="fas fa-book"></i> Library with 15,000+ books & digital resources</div>
+            <div class="fac-item"><i class="fas fa-chalkboard"></i> 45 Smart Digital Classrooms</div>
+            <div class="fac-item"><i class="fas fa-microscope"></i> Dedicated Research & Innovation Lab</div>
+            <div class="fac-item"><i class="fas fa-music"></i> Music & Performing Arts Studio</div>
+            <div class="fac-item"><i class="fas fa-utensils"></i> Hygienic Cafeteria & Tuck Shop</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ADMISSIONS ===== -->
+<section id="admissions">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-tag">Admissions 2025–26</span>
+      <h2 class="section-title">Join the Sunrise Family</h2>
+      <p class="section-sub">Simple, transparent, and student-friendly admission process. Registrations are now open.</p>
+    </div>
+    <div class="adm-grid">
+      <div class="fade-in">
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Admission Process</h3>
+        <p style="color:var(--muted);font-size:.85rem;margin-bottom:24px;">Follow these simple steps to secure your child's future at Modern Public School.</p>
+        <div class="steps-list">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body"><h4>Fill Online Form</h4><p>Complete the registration form with accurate details about the student and family.</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body"><h4>Document Submission</h4><p>Submit birth certificate, previous report card, Aadhar card, and passport photos.</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body"><h4>Interaction / Assessment</h4><p>Attend a brief interaction session at the school (for Class I and above).</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body"><h4>Fee Payment</h4><p>Pay the admission fee online or at the school office to confirm your seat.</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body"><h4>Welcome to Sunrise!</h4><p>Collect your welcome kit, uniform details, and join the Sunrise family. 🎉</p></div>
+          </div>
+        </div>
+        <div style="background:var(--yellow-light);border-radius:12px;padding:20px;margin-top:16px;border:1.5px solid #fde68a;">
+          <h4 style="font-size:.9rem;font-weight:700;margin-bottom:8px;"><i class="fas fa-info-circle" style="color:var(--yellow);margin-right:8px;"></i>Age Eligibility</h4>
+          <p style="font-size:.85rem;color:var(--muted);">Nursery: 3+ years | LKG: 4+ years | UKG: 5+ years | Class I: 6+ years | Upper classes: As per CBSE norms.</p>
+        </div>
+      </div>
+      <div class="adm-form-box fade-in">
+        <h3><i class="fas fa-file-alt"></i> Admission Enquiry Form</h3>
+        <form id="admForm" novalidate>
+          <div class="form-group">
+            <label>Student's Full Name *</label>
+            <input type="text" id="adm_name" placeholder="Enter full name"/>
+            <div class="error-msg" id="adm_name_err">Please enter student's name.</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Class Applying For *</label>
+              <select id="adm_class">
+                <option value="">Select class</option>
+                <option>Nursery</option><option>LKG</option><option>UKG</option>
+                <option>Class I</option><option>Class II</option><option>Class III</option>
+                <option>Class IV</option><option>Class V</option><option>Class VI</option>
+                <option>Class VII</option><option>Class VIII</option><option>Class IX</option>
+                <option>Class X</option><option>Class XI</option><option>Class XII</option>
+              </select>
+              <div class="error-msg" id="adm_class_err">Please select a class.</div>
+            </div>
+            <div class="form-group">
+              <label>Parent's Contact *</label>
+              <input type="tel" id="adm_phone" placeholder="+91 XXXXX XXXXX"/>
+              <div class="error-msg" id="adm_phone_err">Enter valid 10-digit number.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" id="adm_email" placeholder="parent@example.com"/>
+            <div class="error-msg" id="adm_email_err">Enter a valid email address.</div>
+          </div>
+          <div class="form-group">
+            <label>Message / Additional Info</label>
+            <textarea id="adm_msg" rows="3" placeholder="Any specific queries or information..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;"><i class="fas fa-paper-plane"></i> Submit Enquiry</button>
+          <div class="success-toast" id="adm_success"><i class="fas fa-check-circle"></i> Thank you! We'll contact you within 24 hours.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="gallery">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <span class="section-tag">Photo Gallery</span>
+      <h2 class="section-title">Life at Sunrise</h2>
+      <p class="section-sub" style="margin:0 auto;">A glimpse into the vibrant and enriching campus life at Modern Public School.</p>
+    </div>
+    <div class="gallery-grid fade-in">
+      <div class="gal-item wide"><div class="gal-placeholder g1"><i class="fas fa-school"></i></div><div class="gal-overlay"><i class="fas fa-expand" style="margin-right:8px;"></i>School Campus</div></div>
+      <div class="gal-item tall"><div class="gal-placeholder g2" style="height:100%;"><i class="fas fa-flask"></i></div><div class="gal-overlay"><i class="fas fa-expand" style="margin-right:8px;"></i>Science Lab</div></div>
+      <div class="gal-item"><div class="gal-placeholder g3"><i class="fas fa-book"></i></div><div class="gal-overlay"><i class="fas fa-expand" style="margin-right:8px;"></i>Library</div></div>
+      <div class="gal-item"><div class="gal-placeholder g4"><i class="fas fa-music"></i></div><div class="gal-overlay"><i class="fas fa-expand" style="margin-right:8px;"></i>Music Room</div></div>
+      <div class="gal-item"><div class="gal-placeholder g5"><i class="fas fa-running"></i></div><div class="gal-overlay"><i class="fas fa-expand" style="margin-right:8px;"></i>Sports Ground</div></div>
+      <div class="gal-item"><div class="gal-placeholder g6"><i class="fas fa-trophy"></i></div><div class="gal-overlay"><i class="fas fa-expand" style="margin-right:8px;"></i>Annual Sports Day</div></div>
+      <div class="gal-item"><div class="gal-placeholder g7"><i class="fas fa-laptop"></i></div><div class="gal-overlay"><i class="fas fa-expand" style="margin-right:8px;"></i>Computer Lab</div></div>
+      <div class="gal-item"><div class="gal-placeholder g8"><i class="fas fa-paint-brush"></i></div><div class="gal-overlay"><i class="fas fa-expand" style="margin-right:8px;"></i>Art Studio</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-tag">Get in Touch</span>
+      <h2 class="section-title">We'd Love to Hear From You</h2>
+      <p class="section-sub">Have questions about admissions, academics, or facilities? Our team is here to help.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="fade-in">
+        <div class="contact-info">
+          <div class="info-card">
+            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div><h4>Our Address</h4><p>12, Sunrise Marg, Civil Lines,<br>Prayagraj, Uttar Pradesh – 211001</p></div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+            <div><h4>Phone Numbers</h4><p>+91 532 245 6789 (Main Office)<br>+91 98765 43210 (Admissions)</p></div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon"><i class="fas fa-envelope"></i></div>
+            <div><h4>Email Address</h4><p>info@sunrisepublicschool.edu.in<br>admissions@sunrisepublicschool.edu.in</p></div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon"><i class="fas fa-clock"></i></div>
+            <div><h4>Office Hours</h4><p>Monday–Saturday: 8:00 AM – 4:00 PM<br>Sunday & Holidays: Closed</p></div>
+          </div>
+          <!-- Map placeholder -->
+          <div class="map-box"><i class="fas fa-map-marked-alt"></i></div>
+        </div>
+      </div>
+      <div class="contact-form-box fade-in">
+        <h3><i class="fas fa-comment-dots" style="color:var(--blue);margin-right:10px;"></i>Send Us a Message</h3>
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name *</label>
+              <input type="text" id="c_name" placeholder="Full name"/>
+              <div class="error-msg" id="c_name_err">Name is required.</div>
+            </div>
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="tel" id="c_phone" placeholder="10-digit number"/>
+              <div class="error-msg" id="c_phone_err">Valid number required.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" id="c_email" placeholder="your@email.com"/>
+            <div class="error-msg" id="c_email_err">Valid email required.</div>
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <input type="text" id="c_subject" placeholder="What is this about?"/>
+          </div>
+          <div class="form-group">
+            <label>Your Message *</label>
+            <textarea id="c_msg" rows="5" placeholder="Write your message here..."></textarea>
+            <div class="error-msg" id="c_msg_err">Please enter your message.</div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;"><i class="fas fa-paper-plane"></i> Send Message</button>
+          <div class="success-toast" id="c_success"><i class="fas fa-check-circle"></i> Message sent! We'll reply within 24 hours.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="margin-bottom:0;">
+        <div class="logo-icon"><i class="fas fa-sun"></i></div>
+        <div>
+          <div class="logo-text"><span>Sunrise</span> Public School</div>
+          <div class="logo-sub">Est. 1995 · Excellence in Education</div>
+        </div>
+      </div>
+      <p class="footer-desc">A CBSE-affiliated institution committed to academic excellence, holistic growth, and building tomorrow's leaders since 1995.</p>
+      <div class="social-icons">
+        <a href="#" class="soc-icon"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="soc-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="soc-icon"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="soc-icon"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="soc-icon"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">🏠 Home</a></li>
+        <li><a href="#about">📖 About Us</a></li>
+        <li><a href="#academics">🎓 Academics</a></li>
+        <li><a href="#admissions">📝 Admissions</a></li>
+        <li><a href="#gallery">📸 Gallery</a></li>
+        <li><a href="#contact">✉️ Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Academics</h4>
+      <ul>
+        <li><a href="#academics">Primary School</a></li>
+        <li><a href="#academics">Middle School</a></li>
+        <li><a href="#academics">Secondary (IX–X)</a></li>
+        <li><a href="#academics">Senior Sec. (XI–XII)</a></li>
+        <li><a href="#academics">Science Stream</a></li>
+        <li><a href="#academics">Commerce Stream</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Info</h4>
+      <ul>
+        <li><a href="#">📍 Civil Lines, Prayagraj</a></li>
+        <li><a href="tel:+915322456789">📞 0532-245-6789</a></li>
+        <li><a href="mailto:info@sunrisepublicschool.edu.in">✉️ info@sunrise...</a></li>
+        <li><a href="#">🕒 Mon–Sat: 8AM–4PM</a></li>
+        <li><a href="#">🏛️ CBSE Affiliation No.</a></li>
+        <li><a href="#">📋 School Code: 2130456</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom" style="border-top:1px solid #1e293b;margin-top:48px;padding:20px 24px;max-width:1200px;margin-left:auto;margin-right:auto;display:flex;justify-content:space-between;align-items:center;font-size:.8rem;">
+    <span>© 2025 Modern Public School, Prayagraj. All rights reserved.</span>
+    <span>Designed with ❤️ for Excellence in Education</span>
+  </div>
+</footer>
+
+<!-- Scroll to Top -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
+
+<script>
+/* ===== SLIDER ===== */
+let curSlide=0,slideTimer;
+const slides=document.querySelectorAll('.slide'),dots=document.querySelectorAll('.dot');
+function showSlide(n){
+  slides[curSlide].classList.remove('active');dots[curSlide].classList.remove('active');
+  curSlide=(n+slides.length)%slides.length;
+  slides[curSlide].classList.add('active');dots[curSlide].classList.add('active');
+}
+function nextSlide(){showSlide(curSlide+1);resetTimer();}
+function prevSlide(){showSlide(curSlide-1);resetTimer();}
+function goToSlide(n){showSlide(n);resetTimer();}
+function resetTimer(){clearInterval(slideTimer);slideTimer=setInterval(nextSlide,5000);}
+slideTimer=setInterval(nextSlide,5000);
+
+/* ===== NAVBAR ACTIVE + SCROLL ===== */
+const navLinks=document.querySelectorAll('.nav-links a:not(.nav-cta)');
+const sections=document.querySelectorAll('section[id],div.stats-bar');
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY;
+  // scroll top btn
+  document.getElementById('scrollTop').classList.toggle('show',st>400);
+  // active nav
+  let cur='';
+  document.querySelectorAll('section[id]').forEach(s=>{if(st>=s.offsetTop-90)cur=s.id;});
+  navLinks.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+cur);});
+});
+
+/* ===== HAMBURGER ===== */
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');}
+
+/* ===== COUNTER ANIMATION ===== */
+function animateCounters(){
+  document.querySelectorAll('[data-target]').forEach(el=>{
+    const target=+el.dataset.target,dur=1800,step=target/(dur/16);
+    let cur=0;
+    const t=setInterval(()=>{
+      cur+=step;if(cur>=target){cur=target;clearInterval(t);}
+      el.textContent=Math.floor(cur)+(target===98?'%':'+');
+    },16);
+  });
+}
+let counted=false;
+
+/* ===== INTERSECTION OBSERVER (fade-in + counter) ===== */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      if(e.target.closest('.stats-bar')&&!counted){counted=true;animateCounters();}
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+/* ===== FORM VALIDATION HELPERS ===== */
+function val(id){return document.getElementById(id).value.trim();}
+function showErr(id,show){
+  const el=document.getElementById(id);
+  if(el){el.style.display=show?'block':'none';}
+}
+function markField(id,err){
+  const el=document.getElementById(id);
+  if(el){el.classList.toggle('error',err);}
+}
+function isEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+function isPhone(v){return /^\+?[\d\s\-]{10,14}$/.test(v);}
+
+/* ===== ADMISSION FORM ===== */
+document.getElementById('admForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  let ok=true;
+  const n=val('adm_name'),cl=val('adm_class'),ph=val('adm_phone'),em=val('adm_email');
+  markField('adm_name',!n);showErr('adm_name_err',!n);if(!n)ok=false;
+  markField('adm_class',!cl);showErr('adm_class_err',!cl);if(!cl)ok=false;
+  markField('adm_phone',!isPhone(ph));showErr('adm_phone_err',!isPhone(ph));if(!isPhone(ph))ok=false;
+  markField('adm_email',!isEmail(em));showErr('adm_email_err',!isEmail(em));if(!isEmail(em))ok=false;
+  if(ok){
+    document.getElementById('adm_success').style.display='block';
+    document.getElementById('admForm').reset();
+    setTimeout(()=>document.getElementById('adm_success').style.display='none',5000);
+  }
+});
+
+/* ===== CONTACT FORM ===== */
+document.getElementById('contactForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  let ok=true;
+  const n=val('c_name'),ph=val('c_phone'),em=val('c_email'),msg=val('c_msg');
+  markField('c_name',!n);showErr('c_name_err',!n);if(!n)ok=false;
+  markField('c_phone',!isPhone(ph));showErr('c_phone_err',!isPhone(ph));if(!isPhone(ph))ok=false;
+  markField('c_email',!isEmail(em));showErr('c_email_err',!isEmail(em));if(!isEmail(em))ok=false;
+  markField('c_msg',!msg);showErr('c_msg_err',!msg);if(!msg)ok=false;
+  if(ok){
+    document.getElementById('c_success').style.display='block';
+    document.getElementById('contactForm').reset();
+    setTimeout(()=>document.getElementById('c_success').style.display='none',5000);
+  }
+});
+
+/* ===== SMOOTH SCROLL for anchor links ===== */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+</body>
+</html>
